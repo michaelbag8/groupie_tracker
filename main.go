@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"groupie_tracker/services"
-	"groupie_tracker/models"
 )
 
 func main() {
@@ -20,5 +19,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(data)
+	for _, v := range data{
+		fmt.Println(v.Name)
+	}
+
 }
