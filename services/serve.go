@@ -28,8 +28,21 @@ func FetchArtists(url string) (string, error) {
 
 func DecodeArtists(jsonStr string) ([]models.Artist, error){
 	var result []models.Artist
-	if err :=json.NewDecoder(jsonStr).Decode(&result); err!=nil{
+	if err :=json.Unmarshal([]byte(jsonStr), &result);err!=nil{
 		return nil, fmt.Errorf("invalid json %w", err)
 	}
 	return result, nil
 }
+
+/*
+func DecodeArtists(jsonStr string) ([]models.Artist, error) {
+	var result []models.Artist
+
+	decoder := json.NewDecoder(strings.NewReader(jsonStr))
+	if err := decoder.Decode(&result); err != nil {
+		return nil, fmt.Errorf("invalid json: %w", err)
+	}
+
+	return result, nil
+}
+*/	
