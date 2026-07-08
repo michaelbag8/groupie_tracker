@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"encoding/json"
+	"groupie_tracker/models"
 )
 
 func FetchArtists(url string) (string, error) {
@@ -22,4 +24,12 @@ func FetchArtists(url string) (string, error) {
 	}
 
 	return string(content), nil
+}
+
+func DecodeArtists(jsonStr string) ([]models.Artist, error){
+	var result []models.Artist
+	if err :=json.NewDecoder(jsonStr).Decode(&result); err!=nil{
+		return nil, fmt.Errorf("invalid json %w", err)
+	}
+	return result, nil
 }

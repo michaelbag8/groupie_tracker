@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"groupie_tracker/services"
+	"groupie_tracker/models"
 )
 
 func main() {
@@ -14,5 +15,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(res)
+	data, err := services.DecodeArtists(res)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(data)
 }
