@@ -7,9 +7,12 @@ import (
 )
 
 func main() {
-	url := "https://groupietrackers.herokuapp.com/api/artists"
+	urlArtist := "https://groupietrackers.herokuapp.com/api/artists"
+	urlLocation := "https://groupietrackers.herokuapp.com/api/locations"
+	urlDates := "https://groupietrackers.herokuapp.com/api/dates"
+	urlRelation := "https://groupietrackers.herokuapp.com/api/relation"
 
-	res, err := services.FetchArtists(url)
+	res, err := services.FetchData(urlArtist)
 	if err != nil {
 		log.Fatal(err)
 	}

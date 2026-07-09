@@ -8,7 +8,7 @@ import (
 	"groupie_tracker/models"
 )
 
-func FetchArtists(url string) (string, error) {
+func FetchData(url string) (string, error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		return "", fmt.Errorf("error getting data from API %w", err)
