@@ -39,3 +39,7 @@ type FullArtist struct {
     ConcertDates   []string
     DatesLocations map[string][]string
 }
+
+type LocationsResponse struct {
+    Index []LocationEntry
+}

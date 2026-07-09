@@ -8,6 +8,7 @@ import (
 	"groupie_tracker/models"
 )
 
+
 func FetchData(url string) (string, error) {
 	resp, err := http.Get(url)
 	if err != nil {
@@ -33,6 +34,31 @@ func DecodeArtists(jsonStr string) ([]models.Artist, error){
 	}
 	return result, nil
 }
+
+func DecodeRelations(jsonStr string) ([]models.RelationEntry, error){
+	var result []models.RelationEntry
+	if err :=json.Unmarshal([]byte(jsonStr), &result);err!=nil{
+		return nil, fmt.Errorf("invalid json %w", err)
+	}
+	return result, nil
+}
+
+func DecodeLocations(jsonStr string) ([]models.LocationsResponse, error){
+	var result []models.LocationsResponse
+	if err :=json.Unmarshal([]byte(jsonStr), &result);err!=nil{
+		return nil, fmt.Errorf("invalid json %w", err)
+	}
+	return result, nil
+}
+
+func DecodeDates(jsonStr string) ([]models.DateEntry, error){
+	var result []models.DateEntry
+	if err :=json.Unmarshal([]byte(jsonStr), &result);err!=nil{
+		return nil, fmt.Errorf("invalid json %w", err)
+	}
+	return result, nil
+}
+
 
 /*
 func DecodeArtists(jsonStr string) ([]models.Artist, error) {

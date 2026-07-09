@@ -7,23 +7,28 @@ import (
 )
 
 func main() {
-	urlArtist := "https://groupietrackers.herokuapp.com/api/artists"
+	//urlArtist := "https://groupietrackers.herokuapp.com/api/artists"
 	urlLocation := "https://groupietrackers.herokuapp.com/api/locations"
-	urlDates := "https://groupietrackers.herokuapp.com/api/dates"
-	urlRelation := "https://groupietrackers.herokuapp.com/api/relation"
+	//urlDates := "https://groupietrackers.herokuapp.com/api/dates"
+	//urlRelation := "https://groupietrackers.herokuapp.com/api/relation"
 
-	res, err := services.FetchData(urlArtist)
+	res, err := services.FetchData(urlLocation)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	data, err := services.DecodeArtists(res)
+	// data, err := services.DecodeArtists(res)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	data, err := services.DecodeLocations(res)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, v := range data{
-		fmt.Println(v.Name)
+		fmt.Println(v.Index)
 	}
 
 }
