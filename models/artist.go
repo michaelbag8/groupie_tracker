@@ -43,3 +43,11 @@ type FullArtist struct {
 type LocationsResponse struct {
     Index []LocationEntry
 }
+
+type DatesResponse struct {
+    Index []DateEntry
+}
+
+type RelationsResponse struct {
+    Index []RelationEntry
+}

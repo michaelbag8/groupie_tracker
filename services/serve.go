@@ -36,27 +36,28 @@ func DecodeArtists(jsonStr string) ([]models.Artist, error){
 }
 
 func DecodeRelations(jsonStr string) ([]models.RelationEntry, error){
-	var result []models.RelationEntry
+	var result models.RelationsResponse
 	if err :=json.Unmarshal([]byte(jsonStr), &result);err!=nil{
 		return nil, fmt.Errorf("invalid json %w", err)
 	}
-	return result, nil
+	return result.Index, nil
 }
 
-func DecodeLocations(jsonStr string) ([]models.LocationsResponse, error){
-	var result []models.LocationsResponse
+func DecodeLocations(jsonStr string) ([]models.LocationEntry, error){
+	var result models.LocationsResponse
 	if err :=json.Unmarshal([]byte(jsonStr), &result);err!=nil{
 		return nil, fmt.Errorf("invalid json %w", err)
 	}
-	return result, nil
+
+	return result.Index, nil
 }
 
 func DecodeDates(jsonStr string) ([]models.DateEntry, error){
-	var result []models.DateEntry
+	var result models.DatesResponse
 	if err :=json.Unmarshal([]byte(jsonStr), &result);err!=nil{
 		return nil, fmt.Errorf("invalid json %w", err)
 	}
-	return result, nil
+	return result.Index, nil
 }
 
 
