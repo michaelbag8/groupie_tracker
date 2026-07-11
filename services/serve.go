@@ -73,3 +73,39 @@ func DecodeArtists(jsonStr string) ([]models.Artist, error) {
 	return result, nil
 }
 */	
+
+func MergeArtists(artists []models.Artist, locMap map[int]models.LocationEntry, dateMap map[int]models.DateEntry, relMap map[int]models.RelationEntry) []models.FullArtist {
+	var result []models.FullArtist
+	for _, artist := range artists {
+		value, ok := locMap[artist.ID]
+		if !ok {
+			fmt.Printf("location not found for artist ID %d", artist.ID)
+		}
+
+		values, ok := dateMap[artist.ID]
+		if !ok {
+			fmt.Printf("date not found for artist ID %d", artist.ID)
+		}
+
+		val, ok := relMap[artist.ID]
+		if !ok {
+			fmt.Printf("relation not found for artist ID %d", artist.ID)
+		}
+
+		full := models.FullArtist{
+			ID:             artist.ID,
+			Name:           artist.Name,
+			Image:          artist.Image,
+			Members:        artist.Members,
+			CreationDate:   artist.CreationDate,
+			FirstAlbum:     artist.FirstAlbum,
+			Locations:      value.Locations,
+			ConcertDates:   values.Dates,
+			DatesLocations: val.DatesLocations,
+		}
+		result = append(result, full)
+
+	}
+
+	return result
+}

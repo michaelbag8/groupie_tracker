@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"groupie_tracker/services"
+	"groupie_tracker/utils"
 )
 
 func main() {
@@ -48,8 +49,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(len(art))
-	fmt.Println(len(loc))
-	fmt.Println(len(rel))
-	fmt.Println(len(date))
+
+	d := utils.BuildDatesMap(date)
+	l := utils.BuildLocationsMap(loc)
+	r := utils.BuildRelationsMap(rel)
+	final := services.MergeArtists(art,l,d,r)
+	for _, f := range final{
+		fmt.Println(f.Name, f.Locations, f.ConcertDates)
+	}
+
 }
