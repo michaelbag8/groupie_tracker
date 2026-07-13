@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"groupie_tracker/handlers"
 	"groupie_tracker/services"
 	"groupie_tracker/utils"
+	"log"
+	"net/http"
 )
 
 func main() {
@@ -54,8 +56,10 @@ func main() {
 	l := utils.BuildLocationsMap(loc)
 	r := utils.BuildRelationsMap(rel)
 	final := services.MergeArtists(art,l,d,r)
-	for _, f := range final{
-		fmt.Println(f.Name, f.Locations, f.ConcertDates)
-	}
+
+	fmt.Println("server running at http://localhost:8080/")
+	
+	http.HandleFunc("/", handlers.MakeHomeHandler(final))
+	log.Fatal((http.ListenAndServe(":8080", nil)))
 
 }
