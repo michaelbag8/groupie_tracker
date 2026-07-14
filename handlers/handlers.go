@@ -4,22 +4,58 @@ import (
 	"groupie_tracker/models"
 	"html/template"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
-
 func MakeHomeHandler(fullArtists []models.FullArtist) http.HandlerFunc {
-    return func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		temp, err := template.ParseFiles("templates/index.html")
-		if err !=nil{
+		if err != nil {
 			http.Error(w, "error parsing template file", http.StatusInternalServerError)
-			return 
+			return
 		}
-
 		err = temp.Execute(w, fullArtists)
-		if err !=nil{
+		if err != nil {
 			http.Error(w, "error executing template", http.StatusInternalServerError)
-			return 
+			return
 		}
-		
-    }
+	}
+}
+
+func MakeArtistHandler(fullArtists []models.FullArtist) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := r.URL.Path
+		idstring := strings.Split(id, "/")
+		convID, err := strconv.Atoi(idstring[2])
+		if err != nil {
+			http.Error(w, "conversion failed", http.StatusBadRequest)
+			return
+		}
+		found := false
+		var foundArtist models.FullArtist
+		for _, artist := range fullArtists {
+			if artist.ID == convID {
+				found = true
+				foundArtist = artist
+				break
+			}
+
+		}
+		if !found {
+			http.Error(w, "Artist does not exist", http.StatusNotFound)
+			return
+		}
+		temp, err := template.ParseFiles("templates/artist.html")
+		if err != nil {
+			http.Error(w, "error parsing template file", http.StatusInternalServerError)
+			return
+		}
+		err = temp.Execute(w, foundArtist)
+		if err != nil {
+			http.Error(w, "error executing template", http.StatusInternalServerError)
+			return
+		}
+	}
+
 }

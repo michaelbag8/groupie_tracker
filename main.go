@@ -55,11 +55,12 @@ func main() {
 	d := utils.BuildDatesMap(date)
 	l := utils.BuildLocationsMap(loc)
 	r := utils.BuildRelationsMap(rel)
-	final := services.MergeArtists(art,l,d,r)
+	final := services.MergeArtists(art, l, d, r)
 
 	fmt.Println("server running at http://localhost:8080/")
-	
+
 	http.HandleFunc("/", handlers.MakeHomeHandler(final))
+	http.HandleFunc("/artist/", handlers.MakeArtistHandler(final))
 	log.Fatal((http.ListenAndServe(":8080", nil)))
 
 }
