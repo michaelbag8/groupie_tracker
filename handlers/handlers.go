@@ -3,6 +3,7 @@ package handlers
 import (
 	"groupie_tracker/models"
 	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -17,8 +18,7 @@ func MakeHomeHandler(fullArtists []models.FullArtist) http.HandlerFunc {
 		}
 		err = temp.Execute(w, fullArtists)
 		if err != nil {
-			RenderError(w, "error executing template", http.StatusInternalServerError)
-			return
+			log.Println("error executing template")
 		}
 	}
 }
@@ -53,8 +53,7 @@ func MakeArtistHandler(fullArtists []models.FullArtist) http.HandlerFunc {
 		}
 		err = temp.Execute(w, foundArtist)
 		if err != nil {
-			RenderError(w, "error executing template", http.StatusInternalServerError)
-			return
+			log.Println("error executing template")
 		}
 	}
 
