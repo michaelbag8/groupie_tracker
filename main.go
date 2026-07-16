@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"groupie_tracker/handlers"
+	"groupie_tracker/middleware"
 	"groupie_tracker/services"
 	"groupie_tracker/utils"
 	"log"
@@ -59,8 +60,8 @@ func main() {
 
 	fmt.Println("server running at http://localhost:8080/")
 
-	http.HandleFunc("/",handlers.RequireGet(handlers.MakeHomeHandler(final)))
-	http.HandleFunc("/artist/", handlers.RequireGet(handlers.MakeArtistHandler(final)))
+	http.HandleFunc("/",middleware.RequireGet(handlers.MakeHomeHandler(final)))
+	http.HandleFunc("/artist/", middleware.RequireGet(handlers.MakeArtistHandler(final)))
 	log.Fatal((http.ListenAndServe(":8080", nil)))
 
 }

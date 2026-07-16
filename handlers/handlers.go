@@ -12,12 +12,12 @@ func MakeHomeHandler(fullArtists []models.FullArtist) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		temp, err := template.ParseFiles("templates/index.html")
 		if err != nil {
-			http.Error(w, "error parsing template file", http.StatusInternalServerError)
+			RenderError(w, "error parsing template file", http.StatusInternalServerError)
 			return
 		}
 		err = temp.Execute(w, fullArtists)
 		if err != nil {
-			http.Error(w, "error executing template", http.StatusInternalServerError)
+			RenderError(w, "error executing template", http.StatusInternalServerError)
 			return
 		}
 	}
@@ -29,7 +29,7 @@ func MakeArtistHandler(fullArtists []models.FullArtist) http.HandlerFunc {
 		idstring := strings.Split(id, "/")
 		convID, err := strconv.Atoi(idstring[2])
 		if err != nil {
-			http.Error(w, "conversion failed", http.StatusBadRequest)
+			RenderError(w, "conversion failed", http.StatusBadRequest)
 			return
 		}
 		found := false
@@ -43,32 +43,19 @@ func MakeArtistHandler(fullArtists []models.FullArtist) http.HandlerFunc {
 
 		}
 		if !found {
-			http.Error(w, "Artist does not exist", http.StatusNotFound)
+			RenderError(w, "Artist does not exist", http.StatusNotFound)
 			return
 		}
 		temp, err := template.ParseFiles("templates/artist.html")
 		if err != nil {
-			http.Error(w, "error parsing template file", http.StatusInternalServerError)
+			RenderError(w, "error parsing template file", http.StatusInternalServerError)
 			return
 		}
 		err = temp.Execute(w, foundArtist)
 		if err != nil {
-			http.Error(w, "error executing template", http.StatusInternalServerError)
+			RenderError(w, "error executing template", http.StatusInternalServerError)
 			return
 		}
 	}
 
-}
-
-//Middleware to check for method instead of repeating it in all handlers
-func RequireGet(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
-			http.Error(w, "Method Not allowed", http.StatusMethodNotAllowed)
-			return
-		}
-
-		next.ServeHTTP(w, r) //next(w,r) will still work
-
-	}
 }
