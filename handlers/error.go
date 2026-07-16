@@ -10,8 +10,7 @@ import (
 func RenderError(w http.ResponseWriter, message string, statusCode int){
 	temp, err := template.ParseFiles("templates/error.html")
 	if err!=nil{
-		http.Error(w, "error parsing html file", http.StatusInternalServerError)
-		return
+		log.Println("error parsing html file")
 	}
 	errorpage := models.Error{
 		Message: message,
