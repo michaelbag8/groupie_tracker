@@ -59,3 +59,16 @@ func MakeArtistHandler(fullArtists []models.FullArtist) http.HandlerFunc {
 	}
 
 }
+
+//Middleware to check for method instead of repeating it in all handlers
+func RequireGet(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method Not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
+		next.ServeHTTP(w, r) //next(w,r) will still work
+
+	}
+}
